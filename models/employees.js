@@ -6,7 +6,7 @@ const getAllEmployees = async () => {
 };
 
 const getEmployeeById = async id => {
-	return await employeeModel.findById(id);
+	return await employeeModel.findById({ _id: id });
 };
 
 const getEmployeeByEmail = async email => {
@@ -24,13 +24,13 @@ const createEmployee = async employee => {
 const updateEmployee = async (id, employee) => {
 	isValid = employeeValidator(employee);
 	if (isValid) {
-		await employeeModel.findByIdAndUpdate(id, employee);
+		await employeeModel.findByIdAndUpdate({ _id: id }, employee);
 		return employee;
 	} else throw new Error("Invalid employee data");
 };
 
 const deleteEmployee = async id => {
-	return await employeeModel.findByIdAndDelete(id);
+	return await employeeModel.findByIdAndDelete({ _id: id });
 };
 
 module.exports = {
