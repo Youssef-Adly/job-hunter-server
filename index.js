@@ -5,8 +5,9 @@ const express = require("express"),
 	PORT = process.env.PORT || 8000;
 
 const employeesRoutes = require("./routes/employees");
-const adminRoutes = require("./routes/admins");
+const adminsRoutes = require("./routes/admins");
 const companyRoutes = require("./routes/company");
+const jobsRoutes = require("./routes/jobs");
 
 app.use(cros());
 app.use(bodyParser.json());
@@ -14,8 +15,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //#region routes
 app.use("/api/employees", employeesRoutes);
-app.use("/api/admins", adminRoutes);
+app.use("/api/admins", adminsRoutes);
 app.use("/api/companies", companyRoutes);
+app.use("/api/jobs", jobsRoutes);
 // #endregion
 
 app.listen(PORT, () => {
