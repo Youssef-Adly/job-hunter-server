@@ -8,6 +8,7 @@ const employeesRoutes = require("./routes/employees");
 const adminsRoutes = require("./routes/admins");
 const companyRoutes = require("./routes/company");
 const jobsRoutes = require("./routes/jobs");
+const applicationsRoutes = require("./routes/applications");
 
 app.use(cros());
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ app.use("/api/employees", employeesRoutes);
 app.use("/api/admins", adminsRoutes);
 app.use("/api/companies", companyRoutes);
 app.use("/api/jobs", jobsRoutes);
+app.use("/api/applications", applicationsRoutes);
 // #endregion
 
 app.listen(PORT, () => {
