@@ -5,6 +5,7 @@ const adminSchema = require("./schemas/admins.schema");
 const companySchema = require("./schemas/company.schema");
 const jobSchema = require("./schemas/jobs.schema");
 const applicationsSchema = require("./schemas/applications.schema");
+const reviewsSchema = require("./schemas/reviews.schema");
 
 mongoose.connect("mongodb://localhost:27017/job-hunter");
 
@@ -20,6 +21,7 @@ const adminModel = mongoose.model("admin", adminSchema);
 const companyModel = mongoose.model("company", companySchema);
 const jobModel = mongoose.model("job", jobSchema);
 const applicationsModel = mongoose.model("application", applicationsSchema);
+const reviewsModel = mongoose.model("review", reviewsSchema);
 
 module.exports = {
 	employeeModel,
@@ -27,4 +29,5 @@ module.exports = {
 	companyModel,
 	jobModel,
 	applicationsModel,
+	reviewsModel,
 };
