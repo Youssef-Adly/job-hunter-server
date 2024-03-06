@@ -1,4 +1,5 @@
 const adminModel = require("../models/admins");
+const jwt = require("jsonwebtoken");
 
 const getAllAdmins = async (_, res) => {
 	try {
@@ -32,9 +33,19 @@ const createAdmin = async (req, res) => {
 		const isExist = await adminModel.getAdminByEmail(req.body.email);
 		if (isExist)
 			return res.status(400).json({
-				message: "unvaild aouthorization",
+				message: "unvaild authentication",
 			});
 		const admin = await adminModel.createAdmin(req.body);
+		const token = jwt.sign(
+			{
+				email: admin.email,
+				id: admin._id,
+				role: admin.role,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "10h" }
+		);
+		res.header("auth-token", token);
 		res.status(201).json({
 			message: "Admin created successfully",
 			data: admin,
@@ -50,6 +61,16 @@ const updateAdmin = async (req, res) => {
 		if (!admin) {
 			return res.status(404).json({ message: "Admin not found" });
 		}
+		const token = jwt.sign(
+			{
+				email: admin.email,
+				id: admin._id,
+				role: admin.role,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "10h" }
+		);
+		res.header("auth-token", token);
 		res.status(200).json({
 			message: "Admin updated successfully",
 			data: admin,

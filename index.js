@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express"),
 	cros = require("cors"),
 	bodyParser = require("body-parser"),
@@ -10,6 +11,7 @@ const companyRoutes = require("./routes/company");
 const jobsRoutes = require("./routes/jobs");
 const applicationsRoutes = require("./routes/applications");
 const reviewsRoutes = require("./routes/reviews");
+const loginRoutes = require("./routes/login");
 
 app.use(cros());
 app.use(bodyParser.json());
@@ -22,6 +24,7 @@ app.use("/api/companies", companyRoutes);
 app.use("/api/jobs", jobsRoutes);
 app.use("/api/applications", applicationsRoutes);
 app.use("/api/reviews", reviewsRoutes);
+app.use("/api/login", loginRoutes);
 // #endregion
 
 app.listen(PORT, () => {

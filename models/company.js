@@ -1,5 +1,6 @@
 const companyVaildator = require("../utils/validators/company.vaildator");
 const { companyModel } = require("../utils/DB");
+const bcrypt = require("bcrypt");
 
 const getAllCompanies = async () => {
 	return await companyModel.find();
@@ -16,6 +17,8 @@ const getCompanyByEmail = async email => {
 const createCompany = async company => {
 	isValid = companyVaildator(company);
 	if (isValid) {
+		const salt = await bcrypt.genSalt(10);
+		company.password = await bcrypt.hash(company.password, salt);
 		await companyModel.create(company);
 		return company;
 	} else throw new Error("Invalid company data");
@@ -24,8 +27,11 @@ const createCompany = async company => {
 const updateCompany = async (id, company) => {
 	isValid = companyVaildator(company);
 	if (isValid) {
-		await companyModel.findByIdAndUpdate({ _id: id }, company);
-		return company;
+		const salt = await bcrypt.genSalt(10);
+		company.password = await bcrypt.hash(company.password, salt);
+		return await companyModel.findByIdAndUpdate({ _id: id }, company, {
+			new: true,
+		});
 	} else throw new Error("Invalid company data");
 };
 

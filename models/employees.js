@@ -1,5 +1,6 @@
 const employeeValidator = require("../utils/validators/exmployees.vaildator");
 const { employeeModel } = require("../utils/DB");
+const bcrypt = require("bcrypt");
 
 const getAllEmployees = async () => {
 	return await employeeModel.find();
@@ -16,6 +17,8 @@ const getEmployeeByEmail = async email => {
 const createEmployee = async employee => {
 	isValid = employeeValidator(employee);
 	if (isValid) {
+		const salt = await bcrypt.genSalt(10);
+		employee.password = await bcrypt.hash(employee.password, salt);
 		await employeeModel.create(employee);
 		return employee;
 	} else throw new Error("Invalid employee data");
@@ -24,8 +27,11 @@ const createEmployee = async employee => {
 const updateEmployee = async (id, employee) => {
 	isValid = employeeValidator(employee);
 	if (isValid) {
-		await employeeModel.findByIdAndUpdate({ _id: id }, employee);
-		return employee;
+		const salt = await bcrypt.genSalt(10);
+		employee.password = await bcrypt.hash(employee.password, salt);
+		return await employeeModel.findByIdAndUpdate({ _id: id }, employee, {
+			new: true,
+		});
 	} else throw new Error("Invalid employee data");
 };
 

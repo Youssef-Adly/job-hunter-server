@@ -1,4 +1,5 @@
 const companyModel = require("../models/company");
+const jwt = require("jsonwebtoken");
 
 const getAllCompanies = async (_, res) => {
 	try {
@@ -32,9 +33,19 @@ const createCompany = async (req, res) => {
 		const isExist = await companyModel.getCompanyByEmail(req.body.email);
 		if (isExist)
 			return res.status(400).json({
-				message: "unvaild aouthorization",
+				message: "unvaild authentication",
 			});
 		const company = await companyModel.createCompany(req.body);
+		const token = jwt.sign(
+			{
+				email: company.email,
+				id: company._id,
+				role: company.role,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "10h" }
+		);
+		res.header("auth-token", token);
 		res.status(201).json({
 			message: "Company created successfully",
 			data: company,
@@ -50,6 +61,16 @@ const updateCompany = async (req, res) => {
 		if (!company) {
 			return res.status(404).json({ message: "Company not found" });
 		}
+		const token = jwt.sign(
+			{
+				email: company.email,
+				id: company._id,
+				role: company.role,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "10h" }
+		);
+		res.header("auth-token", token);
 		res.status(200).json({
 			message: "Company updated successfully",
 			data: company,

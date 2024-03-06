@@ -1,5 +1,6 @@
 const adminValidator = require("../utils/validators/admins.vaildator");
 const { adminModel } = require("../utils/DB");
+const bcrypt = require("bcrypt");
 
 const getAllAdmins = async () => {
 	return await adminModel.find();
@@ -16,6 +17,8 @@ const getAdminByEmail = async email => {
 const createAdmin = async admin => {
 	isValid = adminValidator(admin);
 	if (isValid) {
+		const salt = await bcrypt.genSalt(10);
+		admin.password = await bcrypt.hash(admin.password, salt);
 		await adminModel.create(admin);
 		return admin;
 	} else throw new Error("Invalid admin data");
@@ -24,8 +27,11 @@ const createAdmin = async admin => {
 const updateAdmin = async (id, admin) => {
 	isValid = adminValidator(admin);
 	if (isValid) {
-		await adminModel.findByIdAndUpdate({ _id: id }, admin);
-		return admin;
+		const salt = await bcrypt.genSalt(10);
+		admin.password = await bcrypt.hash(admin.password, salt);
+		return await adminModel.findByIdAndUpdate({ _id: id }, admin, {
+			new: true,
+		});
 	} else throw new Error("Invalid admin data");
 };
 

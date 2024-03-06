@@ -62,6 +62,11 @@ const companySchema = new mongoose.Schema(
 				},
 			},
 		},
+		role: {
+			type: String,
+			enum: ["company"],
+			required: true,
+		},
 	},
 	{ versionKey: false }
 );
