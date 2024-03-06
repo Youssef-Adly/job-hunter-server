@@ -33,20 +33,7 @@ const jobsSchema = {
 		createdAt: { type: "string", format: "date-time" },
 		isVerfied: { type: "boolean" },
 	},
-	required: [
-		"company",
-		"title",
-		"info",
-		"category",
-		"jobType",
-		"place",
-		"salary",
-		"skills",
-		"experience",
-		"education",
-		"grade",
-		"isVerfied",
-	],
+	required: ["company", "title", "info", "category", "jobType", "place", "salary", "skills", "experience", "education", "grade"],
 };
 
 module.exports = ajv.compile(jobsSchema);
