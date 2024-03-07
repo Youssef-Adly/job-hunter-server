@@ -62,6 +62,10 @@ const companySchema = new mongoose.Schema(
 				},
 			},
 		},
+		techStack: {
+			type: [String],
+			required: true,
+		},
 		role: {
 			type: String,
 			enum: ["company"],

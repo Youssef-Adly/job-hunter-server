@@ -30,12 +30,30 @@ const companySchema = {
 				instagram: { type: "string", format: "uri" },
 			},
 		},
+		techStack: {
+			type: "array",
+			items: {
+				type: "string",
+			},
+		},
 		role: {
 			type: "string",
 			enum: ["company"],
 		},
 	},
-	required: ["name", "address", "email", "password", "foundedIn", "employeesNumber", "industry", "contactInfo", "links", "role"],
+	required: [
+		"name",
+		"address",
+		"email",
+		"password",
+		"foundedIn",
+		"employeesNumber",
+		"industry",
+		"contactInfo",
+		"links",
+		"role",
+		"techStack",
+	],
 };
 
 module.exports = ajv.compile(companySchema);

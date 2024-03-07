@@ -31,9 +31,9 @@ const jobsSchema = {
 		education: { type: "string", enum: ["high school", "bachelor", "master", "phd"] },
 		grade: { type: "string", enum: ["excellent", "very good", "good", "pass"] },
 		createdAt: { type: "string", format: "date-time" },
-		isVerfied: { type: "boolean" },
 	},
 	required: ["company", "title", "info", "category", "jobType", "place", "salary", "skills", "experience", "education", "grade"],
+	additionalProperties: false,
 };
 
 module.exports = ajv.compile(jobsSchema);
