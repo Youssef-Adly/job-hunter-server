@@ -7,7 +7,7 @@ const jobSchema = require("./schemas/jobs.schema");
 const applicationsSchema = require("./schemas/applications.schema");
 const reviewsSchema = require("./schemas/reviews.schema");
 
-mongoose.connect("mongodb://localhost:27017/job-hunter");
+mongoose.connect(process.env.DB_URL);
 
 const db = mongoose.connection;
 
