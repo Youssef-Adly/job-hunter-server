@@ -20,7 +20,11 @@ const login = async (req, res) => {
 		if (!match) return res.status(401).json({ status: "error", message: "Invalid authentication" });
 
 		const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "10h" });
-		res.header("auth-token", token).json({ status: "success", token });
+		res.header("auth-token", token).json({
+			status: "success",
+			token,
+			data: user,
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ status: "error", message: "Internal server error" });
