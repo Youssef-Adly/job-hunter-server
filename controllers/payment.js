@@ -1,6 +1,30 @@
 const paymentModel = require("../models/payment");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
+const getAllPayments = async (req, res) => {
+	try {
+		const payments = await paymentModel.getAllPayments();
+		res.status(200).json({
+			message: "All payments",
+			data: payments,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+const getPaymentById = async (req, res) => {
+	try {
+		const payment = await paymentModel.getPaymentById(req.params.id);
+		res.status(200).json({
+			message: `Payment with id ${req.params.id}`,
+			data: payment,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const config = (req, res) => {
 	res.status(200).json({
 		message: "Stripe configuration",
@@ -37,4 +61,6 @@ const checkout = async (req, res) => {
 module.exports = {
 	config,
 	checkout,
+	getAllPayments,
+	getPaymentById,
 };
