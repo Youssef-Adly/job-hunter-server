@@ -6,6 +6,7 @@ const companySchema = require("./schemas/company.schema");
 const jobSchema = require("./schemas/jobs.schema");
 const applicationsSchema = require("./schemas/applications.schema");
 const reviewsSchema = require("./schemas/reviews.schema");
+const paymentSchema = require("./schemas/payment.schema");
 
 mongoose.connect(process.env.DB_URL);
 
@@ -22,6 +23,7 @@ const companyModel = mongoose.model("company", companySchema);
 const jobModel = mongoose.model("job", jobSchema);
 const applicationsModel = mongoose.model("application", applicationsSchema);
 const reviewsModel = mongoose.model("review", reviewsSchema);
+const paymentModel = mongoose.model("payment", paymentSchema);
 
 module.exports = {
 	employeeModel,
@@ -30,4 +32,5 @@ module.exports = {
 	jobModel,
 	applicationsModel,
 	reviewsModel,
+	paymentModel,
 };

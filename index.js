@@ -12,6 +12,7 @@ const jobsRoutes = require("./routes/jobs");
 const applicationsRoutes = require("./routes/applications");
 const reviewsRoutes = require("./routes/reviews");
 const loginRoutes = require("./routes/login");
+const paymentRoutes = require("./routes/payment");
 
 app.use(cros());
 app.use(bodyParser.json());
@@ -25,6 +26,7 @@ app.use("/api/jobs", jobsRoutes);
 app.use("/api/applications", applicationsRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/login", loginRoutes);
+app.use("/api/payment", paymentRoutes);
 // #endregion
 
 app.listen(PORT, () => {
