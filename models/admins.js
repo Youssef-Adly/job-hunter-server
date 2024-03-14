@@ -35,6 +35,12 @@ const updateAdmin = async (id, admin) => {
 	} else throw new Error("Invalid admin data");
 };
 
+const patchAdmin = async (id, admin) => {
+	const salt = await bcrypt.genSalt(10);
+	admin.password = await bcrypt.hash(admin.password, salt);
+	return await adminModel.findByIdAndUpdate({ _id: id }, admin, { new: true });
+};
+
 const deleteAdmin = async id => {
 	return await adminModel.findByIdAndDelete({ _id: id });
 };
@@ -44,6 +50,7 @@ module.exports = {
 	getAdminById,
 	createAdmin,
 	updateAdmin,
+	patchAdmin,
 	deleteAdmin,
 	getAdminByEmail,
 };

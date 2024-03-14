@@ -1,8 +1,11 @@
 const reviewValidator = require("../utils/validators/review.vaildator");
 const { reviewsModel } = require("../utils/DB");
 
-const getAllReviews = async () => {
-	return await reviewsModel.find();
+const getAllReviews = async (page, pageSize) => {
+	return await reviewsModel
+		.find()
+		.skip((page - 1) * pageSize)
+		.limit(pageSize);
 };
 
 const getReviewById = async id => {
@@ -33,6 +36,10 @@ const updateReview = async (id, review) => {
 	} else throw new Error("Invalid review data");
 };
 
+const patchReview = async (id, review) => {
+	return await reviewsModel.findByIdAndUpdate({ _id: id }, review, { new: true });
+};
+
 const deleteReview = async id => {
 	return await reviewsModel.findByIdAndDelete({ _id: id });
 };
@@ -44,5 +51,6 @@ module.exports = {
 	getReviewsByEmployee,
 	addReview,
 	updateReview,
+	patchReview,
 	deleteReview,
 };

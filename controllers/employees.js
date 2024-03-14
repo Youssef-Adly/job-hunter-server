@@ -80,6 +80,31 @@ const updateEmployee = async (req, res) => {
 	}
 };
 
+const patchEmployee = async (req, res) => {
+	try {
+		const employee = await employeesModel.patchEmployee(req.params.id, req.body);
+		if (!employee) {
+			return res.status(404).json({ message: "Employee not found" });
+		}
+		const token = jwt.sign(
+			{
+				email: employee.email,
+				id: employee._id,
+				role: employee.role,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "10h" }
+		);
+		res.header("auth-token", token);
+		res.status(200).json({
+			message: "Employee patched successfully",
+			data: employee,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const deleteEmployee = async (req, res) => {
 	try {
 		const employee = await employeesModel.deleteEmployee(req.params.id);
@@ -100,5 +125,6 @@ module.exports = {
 	getEmployeeById,
 	createEmployee,
 	updateEmployee,
+	patchEmployee,
 	deleteEmployee,
 };

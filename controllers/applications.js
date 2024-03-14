@@ -1,8 +1,10 @@
 const applicationsModel = require("../models/applications");
 
-const getAllApplications = async (_, res) => {
+const getAllApplications = async (req, res) => {
+	const page = parseInt(req.query.page) || 1,
+		pageSize = parseInt(req.query.pageSize) || 10;
 	try {
-		const applications = await applicationsModel.getAllApplications();
+		const applications = await applicationsModel.getAllApplications(page, pageSize);
 		res.status(200).json({
 			message: "All applications fetched successfully",
 			data: applications,

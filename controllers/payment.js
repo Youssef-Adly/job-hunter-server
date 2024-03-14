@@ -2,10 +2,12 @@ const paymentModel = require("../models/payment");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const getAllPayments = async (req, res) => {
+	const page = parseInt(req.query.page) || 1,
+		pageSize = parseInt(req.query.pageSize) || 10;
 	try {
-		const payments = await paymentModel.getAllPayments();
+		const payments = await paymentModel.getAllPayments(page, pageSize);
 		res.status(200).json({
-			message: "All payments",
+			message: "All payments fetched successfully",
 			data: payments,
 		});
 	} catch (error) {

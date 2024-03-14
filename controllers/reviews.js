@@ -1,8 +1,10 @@
 const reviewModel = require("../models/reviews");
 
-const getAllReviews = async (_, res) => {
+const getAllReviews = async (req, res) => {
+	const page = parseInt(req.query.page) || 1,
+		pageSize = parseInt(req.query.pageSize) || 10;
 	try {
-		const reviews = await reviewModel.getAllReviews();
+		const reviews = await reviewModel.getAllReviews(page, pageSize);
 		res.status(200).json({
 			status: "success",
 			message: "All reviews fetched successfully",
@@ -126,6 +128,29 @@ const updateReview = async (req, res) => {
 	}
 };
 
+const patchReview = async (req, res) => {
+	try {
+		const review = await reviewModel.patchReview(req.params.id, req.body);
+		if (!review) {
+			return res.status(404).json({
+				status: "error",
+				message: "Review not found",
+			});
+		}
+		res.status(200).json({
+			status: "success",
+			message: "Review updated successfully",
+			data: review,
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: "error",
+			message: "Internal server error",
+			error: error.message,
+		});
+	}
+};
+
 const deleteReview = async (req, res) => {
 	try {
 		const review = await reviewModel.deleteReview(req.params.id);
@@ -155,5 +180,6 @@ module.exports = {
 	getReviewsByEmployee,
 	addReview,
 	updateReview,
+	patchReview,
 	deleteReview,
 };

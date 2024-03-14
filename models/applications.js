@@ -1,8 +1,11 @@
 const applicationValidator = require("../utils/validators/applications.vaildator");
 const { applicationsModel } = require("../utils/DB");
 
-const getAllApplications = async () => {
-	return await applicationsModel.find();
+const getAllApplications = async (page, pageSize) => {
+	return await applicationsModel
+		.find()
+		.skip((page - 1) * pageSize)
+		.limit(pageSize);
 };
 
 const getApplicationById = async id => {

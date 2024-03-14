@@ -80,6 +80,21 @@ const updateAdmin = async (req, res) => {
 	}
 };
 
+const patchAdmin = async (req, res) => {
+	try {
+		const admin = await adminModel.patchAdmin(req.params.id, req.body);
+		if (!admin) {
+			return res.status(404).json({ message: "Admin not found" });
+		}
+		res.status(200).json({
+			message: "Admin patched successfully",
+			data: admin,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const deleteAdmin = async (req, res) => {
 	try {
 		const admin = await adminModel.deleteAdmin(req.params.id);
@@ -100,5 +115,6 @@ module.exports = {
 	getAdminById,
 	createAdmin,
 	updateAdmin,
+	patchAdmin,
 	deleteAdmin,
 };

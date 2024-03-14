@@ -1,8 +1,10 @@
 const jobModel = require("../models/jobs");
 
-const getAllJobs = async (_, res) => {
+const getAllJobs = async (req, res) => {
+	const page = parseInt(req.query.page) || 1,
+		pageSize = parseInt(req.query.pageSize) || 10;
 	try {
-		const jobs = await jobModel.getAllJobs();
+		const jobs = await jobModel.getAllJobs(page, pageSize);
 		res.status(200).json({
 			message: "All jobs fetched successfully",
 			data: jobs,
@@ -54,6 +56,21 @@ const updateJob = async (req, res) => {
 	}
 };
 
+const patchJob = async (req, res) => {
+	try {
+		const job = await jobModel.patchJob(req.params.id, req.body);
+		if (!job) {
+			return res.status(404).json({ message: "Job not found" });
+		}
+		res.status(200).json({
+			message: "Job updated successfully",
+			data: job,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const deleteJob = async (req, res) => {
 	try {
 		const job = await jobModel.deleteJob(req.params.id);
@@ -74,5 +91,6 @@ module.exports = {
 	getJobById,
 	createJob,
 	updateJob,
+	patchJob,
 	deleteJob,
 };

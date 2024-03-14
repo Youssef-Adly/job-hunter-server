@@ -1,9 +1,11 @@
 const companyModel = require("../models/company");
 const jwt = require("jsonwebtoken");
 
-const getAllCompanies = async (_, res) => {
+const getAllCompanies = async (req, res) => {
+	const page = parseInt(req.query.page) || 1,
+		pageSize = parseInt(req.query.pageSize) || 10;
 	try {
-		const companies = await companyModel.getAllCompanies();
+		const companies = await companyModel.getAllCompanies(page, pageSize);
 		res.status(200).json({
 			message: "All companies fetched successfully",
 			data: companies,
@@ -80,6 +82,31 @@ const updateCompany = async (req, res) => {
 	}
 };
 
+const patchCompany = async (req, res) => {
+	try {
+		const company = await companyModel.patchCompany(req.params.id, req.body);
+		if (!company) {
+			return res.status(404).json({ message: "Company not found" });
+		}
+		const token = jwt.sign(
+			{
+				email: company.email,
+				id: company._id,
+				role: company.role,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "10h" }
+		);
+		res.header("auth-token", token);
+		res.status(200).json({
+			message: "Company updated successfully",
+			data: company,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const deleteCompany = async (req, res) => {
 	try {
 		const company = await companyModel.deleteCompany(req.params.id);
@@ -100,5 +127,6 @@ module.exports = {
 	getCompanyById,
 	createCompany,
 	updateCompany,
+	patchCompany,
 	deleteCompany,
 };
