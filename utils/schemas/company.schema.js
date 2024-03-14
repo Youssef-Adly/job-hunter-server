@@ -78,6 +78,11 @@ const companySchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		avilableJobs: {
+			type: Number,
+			required: true,
+			default: 3,
+		},
 		role: {
 			type: String,
 			enum: ["company"],

@@ -30,27 +30,26 @@ const getPaymentById = async (req, res) => {
 const config = (req, res) => {
 	res.status(200).json({
 		message: "Stripe configuration",
-		data: process.env.STRIPE_PUBLISHABLE_KEY,
+		data: process.env.STRIPE_SECRET_KEY,
 	});
 };
 
 const checkout = async (req, res) => {
 	try {
-		const { amount, id, currency } = req.body;
+		const { amount } = req.body;
 		const payment = await stripe.paymentIntents.create({
 			amount,
-			currency,
-			description: `Payment for ${req.user.name} in job-hunter`,
-			payment_method: id,
+			currency: "usd",
+			description: `Payment for ${req.body.user.name} in job-hunter`,
 			confirm: true,
-			return_url: "http://localhost:3000/success",
+			payment_method: "pm_card_visa",
+			return_url: "http://localhost:3000/landing",
 		});
 		if (payment.status === "succeeded") {
 			const newPayment = {
-				userId: req.user._id,
-				userName: req.user.name,
+				userId: req.body.user.userId,
+				userName: req.body.user.name,
 				amount: payment.amount / 100,
-				paymentDate: new Date(),
 			};
 			await paymentModel.createPayment(newPayment);
 			res.status(200).json({ message: "Payment successful", payment });

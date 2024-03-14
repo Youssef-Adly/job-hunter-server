@@ -10,9 +10,8 @@ const paymentSchema = {
 		userId: { type: "string" },
 		userName: { type: "string" },
 		amount: { type: "number" },
-		paymentDate: { type: "string", format: "date" },
 	},
-	required: ["userId", "userName", "amount", "paymentDate"],
+	required: ["userId", "userName", "amount"],
 };
 
 module.exports = ajv.compile(paymentSchema);

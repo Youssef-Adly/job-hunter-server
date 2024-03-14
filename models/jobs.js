@@ -1,5 +1,6 @@
 const jobValidator = require("../utils/validators/jobs.vaildator");
 const { jobModel } = require("../utils/DB");
+const { companyModel } = require("../utils/DB");
 
 const getAllJobs = async (page, pageSize) => {
 	const jobs = await jobModel
@@ -14,8 +15,13 @@ const getJobById = async id => {
 };
 
 const createJob = async job => {
+	const company = await companyModel.findById({ _id: job.companyId });
+	if (!company) throw new Error("Company not found");
+	if (company.avilableJobs <= 0) throw new Error("No available jobs");
 	isValid = jobValidator(job);
 	if (isValid) {
+		company.avilableJobs -= 1;
+		await companyModel.findByIdAndUpdate({ _id: job.companyId }, company);
 		await jobModel.create(job);
 		return job;
 	} else throw new Error("Invalid job data");
