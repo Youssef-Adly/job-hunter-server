@@ -15,13 +15,13 @@ const getJobById = async id => {
 };
 
 const createJob = async job => {
-	const company = await companyModel.findById({ _id: job.companyId });
+	const company = await companyModel.findById({ _id: job.company });
 	if (!company) throw new Error("Company not found");
 	if (company.avilableJobs <= 0) throw new Error("No available jobs");
 	isValid = jobValidator(job);
 	if (isValid) {
 		company.avilableJobs -= 1;
-		await companyModel.findByIdAndUpdate({ _id: job.companyId }, company);
+		await companyModel.findByIdAndUpdate({ _id: job.company }, company);
 		await jobModel.create(job);
 		return job;
 	} else throw new Error("Invalid job data");
