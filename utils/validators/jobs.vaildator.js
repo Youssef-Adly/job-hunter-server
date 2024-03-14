@@ -18,7 +18,7 @@ const jobsSchema = {
 			required: ["description", "responsibilities"],
 		},
 		category: { type: "string", enum: ["front-end", "back-end", "full-stack"] },
-		jobType: { type: "string", enum: ["full-Time", "part-Time", "remote"] },
+		jobType: { type: "array", items: { type: "string", enum: ["full-Time", "part-Time", "remote"] } },
 		place: { type: "string", enum: ["on-site", "remote", "hybrid"] },
 		salary: { type: "number", minimum: 0 },
 		skills: {
@@ -31,6 +31,7 @@ const jobsSchema = {
 		education: { type: "string", enum: ["high school", "bachelor", "master", "phd"] },
 		grade: { type: "string", enum: ["excellent", "very good", "good", "pass"] },
 		createdAt: { type: "string", format: "date-time" },
+		image: { type: "string" },
 	},
 	required: ["company", "title", "info", "category", "jobType", "place", "salary", "skills", "experience", "education", "grade"],
 	additionalProperties: false,

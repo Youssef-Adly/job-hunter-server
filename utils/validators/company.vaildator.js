@@ -36,6 +36,9 @@ const companySchema = {
 				type: "string",
 			},
 		},
+		description: { type: "string" },
+		image: { type: "string" },
+		workplace: { type: "string" },
 		role: {
 			type: "string",
 			enum: ["company"],
@@ -53,6 +56,8 @@ const companySchema = {
 		"links",
 		"role",
 		"techStack",
+		"description",
+		"workplace",
 	],
 };
 

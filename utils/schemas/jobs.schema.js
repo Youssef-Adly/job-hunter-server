@@ -26,7 +26,7 @@ const jobSchema = new mongoose.Schema(
 			required: true,
 		},
 		jobType: {
-			type: String,
+			type: [String],
 			enum: ["full-Time", "part-Time", "remote"],
 			required: true,
 		},
@@ -61,9 +61,14 @@ const jobSchema = new mongoose.Schema(
 			type: Date,
 			default: Date.now,
 		},
-		isVerfied: {
-			type: Boolean,
-			default: false,
+		status: {
+			type: String,
+			enum: ["active", "rejected", "pending"],
+			default: "pending",
+		},
+		image: {
+			type: String,
+			required: false,
 		},
 	},
 	{
