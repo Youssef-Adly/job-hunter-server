@@ -1,4 +1,5 @@
 const paymentModel = require("../models/payment");
+const companyModel = require("../models/company");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const getAllPayments = async (req, res) => {
@@ -36,22 +37,28 @@ const config = (req, res) => {
 
 const checkout = async (req, res) => {
 	try {
-		const { amount } = req.body;
+		const { amount, user } = req.body;
 		const payment = await stripe.paymentIntents.create({
 			amount,
 			currency: "usd",
-			description: `Payment for ${req.body.user.name} in job-hunter`,
+			description: `Payment for ${user.name} in job-hunter`,
 			confirm: true,
 			payment_method: "pm_card_visa",
 			return_url: "http://localhost:3000/landing",
 		});
 		if (payment.status === "succeeded") {
 			const newPayment = {
-				userId: req.body.user.userId,
-				userName: req.body.user.name,
-				amount: payment.amount / 100,
+				userId: user._id,
+				userName: user.name,
+				amount: payment.amount,
 			};
 			await paymentModel.createPayment(newPayment);
+			// Update company balance
+			const company = await companyModel.getCompanyById(user._id);
+			console.log(company);
+			await companyModel.patchCompany(user._id, {
+				avilableJobs: company.avilableJobs + payment.amount == 99 ? 3 : 20,
+			});
 			res.status(200).json({ message: "Payment successful", payment });
 		} else res.status(400).json({ message: "Payment failed", payment });
 	} catch (error) {
