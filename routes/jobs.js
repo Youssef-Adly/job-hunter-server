@@ -6,6 +6,7 @@ const companyPermissions = require("../middlewares/company.permissions");
 
 router.get("/", jobController.getAllJobs);
 router.get("/:id", jobController.getJobById);
+router.get("/company/:company", jobController.getJobByCompany);
 router.post("/", companyPermissions, jobController.createJob);
 router.put("/:id", adminPermissions, jobController.updateJob);
 router.patch("/:id", adminPermissions, jobController.patchJob);

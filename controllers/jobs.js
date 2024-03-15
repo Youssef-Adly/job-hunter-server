@@ -29,6 +29,21 @@ const getJobById = async (req, res) => {
 	}
 };
 
+const getJobByCompany = async (req, res) => {
+	try {
+		const jobs = await jobModel.getJobByCompany(req.params.company);
+		if (!jobs) {
+			return res.status(404).json({ message: "Jobs not found" });
+		}
+		res.status(200).json({
+			message: "Jobs fetched successfully",
+			data: jobs,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const createJob = async (req, res) => {
 	try {
 		const job = await jobModel.createJob(req.body);
@@ -89,6 +104,7 @@ const deleteJob = async (req, res) => {
 module.exports = {
 	getAllJobs,
 	getJobById,
+	getJobByCompany,
 	createJob,
 	updateJob,
 	patchJob,

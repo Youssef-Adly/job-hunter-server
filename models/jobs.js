@@ -14,6 +14,10 @@ const getJobById = async id => {
 	return await jobModel.findById({ _id: id });
 };
 
+const getJobByCompany = async company => {
+	return await jobModel.find({ company });
+};
+
 const createJob = async job => {
 	const company = await companyModel.findById({ _id: job.company });
 	if (!company) throw new Error("Company not found");
@@ -46,6 +50,7 @@ const deleteJob = async id => {
 module.exports = {
 	getAllJobs,
 	getJobById,
+	getJobByCompany,
 	createJob,
 	updateJob,
 	patchJob,

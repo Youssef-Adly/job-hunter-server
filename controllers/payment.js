@@ -55,7 +55,6 @@ const checkout = async (req, res) => {
 			await paymentModel.createPayment(newPayment);
 			// Update company balance
 			const company = await companyModel.getCompanyById(user._id);
-			console.log(company);
 			await companyModel.patchCompany(user._id, {
 				avilableJobs: company.avilableJobs + payment.amount == 99 ? 3 : 20,
 			});
