@@ -86,6 +86,26 @@ const updateApplication = async (req, res) => {
 	}
 };
 
+const patchApplication = async (req, res) => {
+	try {
+		const oldApplication = await applicationsModel.getApplicationById(req.params.id);
+		if (!oldApplication) return res.status(404).json({ message: "Application not found" });
+
+		const newApplication = { ...oldApplication.process, ...req.body.process };
+		req.body.process = newApplication;
+		const application = await applicationsModel.patchApplication(req.params.id, req.body);
+		if (!application) {
+			return res.status(404).json({ message: "Application not found" });
+		}
+		res.status(200).json({
+			message: "Application updated successfully",
+			data: application,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const deleteApplication = async (req, res) => {
 	try {
 		const application = await applicationsModel.deleteApplication(req.params.id);
@@ -108,5 +128,6 @@ module.exports = {
 	getApplicationsByCompany,
 	createApplication,
 	updateApplication,
+	patchApplication,
 	deleteApplication,
 };

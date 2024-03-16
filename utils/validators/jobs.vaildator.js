@@ -18,7 +18,7 @@ const jobsSchema = {
 			required: ["description", "responsibilities"],
 		},
 		category: { type: "string", enum: ["front-end", "back-end", "full-stack"] },
-		jobType: { type: "string", enum: ["full-Time", "part-Time", "remote"] },
+		jobType: { type: "string", enum: ["full-Time", "part-Time", "freelance"] },
 		place: { type: "string", enum: ["on-site", "remote", "hybrid"] },
 		salary: { type: "number", minimum: 0 },
 		skills: {

@@ -23,6 +23,15 @@ const applicationsSchema = new mongoose.Schema(
 			type: Date,
 			default: Date.now,
 		},
+		process: {
+			type: Object,
+			default: {
+				step1: { type: Object, default: {} },
+				step2: { type: Object, default: {} },
+				step3: { type: Object, default: {} },
+				step4: { type: Object, default: {} },
+			},
+		},
 	},
 	{
 		versionKey: false,

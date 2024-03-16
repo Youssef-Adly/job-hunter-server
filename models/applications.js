@@ -36,6 +36,11 @@ const updateApplication = async (id, application) => {
 	} else throw new Error("Invalid application data");
 };
 
+const patchApplication = async (id, application) => {
+	await applicationsModel.findByIdAndUpdate({ _id: id }, application);
+	return application;
+};
+
 const deleteApplication = async id => {
 	return await applicationsModel.findByIdAndDelete({ _id: id });
 };
@@ -45,6 +50,7 @@ module.exports = {
 	getApplicationById,
 	createApplication,
 	updateApplication,
+	patchApplication,
 	deleteApplication,
 	getApplicationsByEmployee,
 	getApplicationsByCompany,

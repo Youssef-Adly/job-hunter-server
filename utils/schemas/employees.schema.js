@@ -32,7 +32,7 @@ const employeeSchema = new mongoose.Schema(
 		},
 		jobTitle: {
 			type: String,
-			enum: ["front-end", "back-end", "ui/ux"],
+			enum: ["front-end", "back-end", "full-stack"],
 			required: true,
 		},
 		minimumSalary: { type: Number, required: true },
@@ -69,6 +69,12 @@ const employeeSchema = new mongoose.Schema(
 			default: "employee",
 			required: true,
 		},
+		image: {
+			type: String,
+			default: "https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png",
+		},
+		university: { type: String },
+		employeeCv: { type: String },
 	},
 	{ versionKey: false }
 );

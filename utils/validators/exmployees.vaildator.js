@@ -24,7 +24,7 @@ const employeeSchema = {
 		yearsOfExperience: { type: "number", minimum: 0 },
 		typeOfJob: { type: "string", enum: ["full-Time", "part-Time", "remote"] },
 		workPlaceType: { type: "string", enum: ["on-site", "remote", "hybrid"] },
-		jobTitle: { type: "string", enum: ["front-end", "back-end", "ui/ux"] },
+		jobTitle: { type: "string", enum: ["front-end", "back-end", "full-stack"] },
 		minimumSalary: { type: "number", minimum: 0 },
 		graduationYear: { type: "number", minimum: 0 },
 		educationLevel: { type: "string", enum: ["high school", "bachelor", "master", "phd"] },
@@ -35,7 +35,6 @@ const employeeSchema = {
 				type: "object",
 				properties: {
 					skillName: { type: "string" },
-					skillLevel: { type: "string", enum: ["beginner", "intermediate", "advanced", "expert"] },
 				},
 				required: ["skillName", "skillLevel"],
 			},
@@ -48,6 +47,9 @@ const employeeSchema = {
 			},
 		},
 		role: { type: "string", enum: ["employee"] },
+		image: { type: "string" },
+		university: { type: "string" },
+		employeeCv: { type: "string" },
 	},
 	required: [
 		"userName",

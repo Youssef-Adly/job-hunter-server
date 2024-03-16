@@ -8,6 +8,7 @@ router.get("/employee/:employee", application.getApplicationsByEmployee);
 router.get("/company/:company", application.getApplicationsByCompany);
 router.post("/", application.createApplication);
 router.put("/:id", application.updateApplication);
+router.patch("/:id", application.patchApplication);
 router.delete("/:id", application.deleteApplication);
 
 module.exports = router;
