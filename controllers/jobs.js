@@ -1,4 +1,5 @@
 const jobModel = require("../models/jobs");
+const employeeModel = require("../models/employees");
 
 const getAllJobs = async (req, res) => {
 	const page = parseInt(req.query.page) || 1,
@@ -46,10 +47,42 @@ const getJobByCompany = async (req, res) => {
 
 const createJob = async (req, res) => {
 	try {
-		const job = await jobModel.createJob(req.body);
+		const allEmployees = await employeeModel.getAllEmployees();
+		const job = req.body;
+		let mathcings = {};
+		allEmployees.forEach(employee => {
+			if (
+				employee.jobTitle !== job.category ||
+				employee.typeOfJob !== job.jobType ||
+				employee.workPlaceType !== job.place ||
+				employee.yearsOfExperience < job.experience
+			)
+				return;
+			else {
+				let allEmployeeSkills = employee.skills.map(skill => skill.skillName.toLowerCase());
+				let matchingSkills = allEmployeeSkills.filter(skill => job.skills.includes(skill.toLowerCase()));
+				const score = matchingSkills.length / job.skills.length;
+				if (score == 0) return;
+				mathcings[employee.id] = {
+					name: employee.userName,
+					graduationYear: employee.graduationYear,
+					image: employee.image,
+					score,
+					matchingSkills,
+				};
+			}
+		});
+
+		let qualifiedEmployees = [];
+		for (let employee in mathcings) {
+			if (mathcings[employee] > 3) qualifiedEmployees.push(employee);
+		}
+		job.mathcings = mathcings;
+
+		const createdJob = await jobModel.createJob(job);
 		res.status(201).json({
 			message: "Job created successfully",
-			data: job,
+			data: createdJob,
 		});
 	} catch (error) {
 		res.status(500).json({ message: error.message });

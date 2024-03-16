@@ -22,7 +22,7 @@ const employeeSchema = {
 		},
 		gender: { type: "string", enum: ["male", "female"] },
 		yearsOfExperience: { type: "number", minimum: 0 },
-		typeOfJob: { type: "string", enum: ["full-Time", "part-Time", "remote"] },
+		typeOfJob: { type: "string", enum: ["full-Time", "part-Time", "freelance"] },
 		workPlaceType: { type: "string", enum: ["on-site", "remote", "hybrid"] },
 		jobTitle: { type: "string", enum: ["front-end", "back-end", "full-stack"] },
 		minimumSalary: { type: "number", minimum: 0 },

@@ -59,6 +59,21 @@ const getApplicationsByCompany = async (req, res) => {
 	}
 };
 
+const getApplicationByJob = async (req, res) => {
+	try {
+		const applications = await applicationsModel.getApplicationsByJob(req.params.job);
+		if (!applications) {
+			return res.status(404).json({ message: "Applications not found" });
+		}
+		res.status(200).json({
+			message: "Applications fetched successfully",
+			data: applications,
+		});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 const createApplication = async (req, res) => {
 	try {
 		const application = await applicationsModel.createApplication(req.body);
@@ -126,6 +141,7 @@ module.exports = {
 	getApplicationById,
 	getApplicationsByEmployee,
 	getApplicationsByCompany,
+	getApplicationByJob,
 	createApplication,
 	updateApplication,
 	patchApplication,

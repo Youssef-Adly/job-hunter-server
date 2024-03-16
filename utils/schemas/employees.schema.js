@@ -22,7 +22,7 @@ const employeeSchema = new mongoose.Schema(
 		yearsOfExperience: { type: Number, required: true },
 		typeOfJob: {
 			type: String,
-			enum: ["full-Time", "part-Time", "remote"],
+			enum: ["full-Time", "part-Time", "freelance"],
 			required: true,
 		},
 		workPlaceType: {

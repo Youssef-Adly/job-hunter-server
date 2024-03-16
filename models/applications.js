@@ -20,6 +20,10 @@ const getApplicationsByCompany = async company => {
 	return await applicationsModel.find({ company });
 };
 
+const getApplicationsByJob = async job => {
+	return await applicationsModel.find({ job });
+};
+
 const createApplication = async application => {
 	isValid = applicationValidator(application);
 	if (isValid) {
@@ -48,10 +52,11 @@ const deleteApplication = async id => {
 module.exports = {
 	getAllApplications,
 	getApplicationById,
+	getApplicationsByEmployee,
+	getApplicationsByCompany,
+	getApplicationsByJob,
 	createApplication,
 	updateApplication,
 	patchApplication,
 	deleteApplication,
-	getApplicationsByEmployee,
-	getApplicationsByCompany,
 };

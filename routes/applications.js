@@ -6,6 +6,7 @@ router.get("/", application.getAllApplications);
 router.get("/:id", application.getApplicationById);
 router.get("/employee/:employee", application.getApplicationsByEmployee);
 router.get("/company/:company", application.getApplicationsByCompany);
+router.get("/job/:job", application.getApplicationByJob);
 router.post("/", application.createApplication);
 router.put("/:id", application.updateApplication);
 router.patch("/:id", application.patchApplication);
