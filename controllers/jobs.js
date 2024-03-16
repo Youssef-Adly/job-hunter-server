@@ -49,7 +49,7 @@ const createJob = async (req, res) => {
 	try {
 		const allEmployees = await employeeModel.getAllEmployees();
 		const job = req.body;
-		let mathcings = {};
+		let mathcings = [];
 		allEmployees.forEach(employee => {
 			if (
 				employee.jobTitle !== job.category ||
@@ -63,20 +63,16 @@ const createJob = async (req, res) => {
 				let matchingSkills = allEmployeeSkills.filter(skill => job.skills.includes(skill.toLowerCase()));
 				const score = matchingSkills.length / job.skills.length;
 				if (score == 0) return;
-				mathcings[employee.id] = {
+				mathcings.push({
+					id: employee._id,
 					name: employee.userName,
 					graduationYear: employee.graduationYear,
 					image: employee.image,
 					score,
 					matchingSkills,
-				};
+				});
 			}
 		});
-
-		let qualifiedEmployees = [];
-		for (let employee in mathcings) {
-			if (mathcings[employee] > 3) qualifiedEmployees.push(employee);
-		}
 		job.mathcings = mathcings;
 
 		const createdJob = await jobModel.createJob(job);

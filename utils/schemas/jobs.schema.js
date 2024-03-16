@@ -71,7 +71,7 @@ const jobSchema = new mongoose.Schema(
 			required: false,
 		},
 		mathcings: {
-			type: Object,
+			type: [Object],
 			required: false,
 		},
 	},

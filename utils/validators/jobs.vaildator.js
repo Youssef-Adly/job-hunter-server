@@ -33,7 +33,10 @@ const jobsSchema = {
 		createdAt: { type: "string", format: "date-time" },
 		image: { type: "string" },
 		mathcings: {
-			type: "object",
+			type: "array",
+			items: {
+				type: "object",
+			},
 		},
 	},
 	required: ["company", "title", "info", "category", "jobType", "place", "salary", "skills", "experience", "education", "grade"],
