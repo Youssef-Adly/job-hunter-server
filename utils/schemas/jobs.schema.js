@@ -70,6 +70,10 @@ const jobSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 		},
+		mathcings: {
+			type: Object,
+			required: false,
+		},
 	},
 	{
 		versionKey: false,
