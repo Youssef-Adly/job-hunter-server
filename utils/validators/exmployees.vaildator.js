@@ -36,7 +36,7 @@ const employeeSchema = {
 				properties: {
 					skillName: { type: "string" },
 				},
-				required: ["skillName", "skillLevel"],
+				required: ["skillName"],
 			},
 		},
 		links: {

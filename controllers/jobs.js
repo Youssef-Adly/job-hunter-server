@@ -66,7 +66,10 @@ const createJob = async (req, res) => {
 				mathcings.push({
 					id: employee._id,
 					name: employee.userName,
+					email: employee.email,
+					educationLevel: employee.educationLevel,
 					graduationYear: employee.graduationYear,
+					grade: employee.grade,
 					image: employee.image,
 					score,
 					matchingSkills,
