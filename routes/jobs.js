@@ -8,7 +8,7 @@ router.get("/:id", jobController.getJobById);
 router.get("/company/:company", jobController.getJobByCompany);
 router.post("/", companyPermissions, jobController.createJob);
 router.put("/:id", companyPermissions, jobController.updateJob);
-router.patch("/:id", companyPermissions, jobController.patchJob);
+router.patch("/:id", jobController.patchJob);
 router.delete("/:id", companyPermissions, jobController.deleteJob);
 
 module.exports = router;
